@@ -1,0 +1,29 @@
+{
+  "name": "tw-wallet-rmb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "npm run build",
+    "build": "truffle compile",
+    "test": "truffle test  --network development",
+    "deploy:development": "truffle migrate --network development",
+    "prebuild": "rimraf ./build/contracts/*",
+    "verify:ropsten": "truffle run verify --network ropsten",
+    "verify:mainnet": "truffle run verify --network mainnet"
+  },
+  "keywords": [],
+  "private": true,
+  "author": "",
+  "dependencies": {},
+  "license": "ISC",
+  "devDependencies": {
+    "@openzeppelin/contracts": "^3.0.2",
+    "@openzeppelin/test-helpers": "^0.5.6",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1"
+  }
+}
