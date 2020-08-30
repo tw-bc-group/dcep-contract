@@ -29,14 +29,14 @@ contract("rmb", async addresses => {
                 amount.toNumber().should.be.equal(CIRCULATION);
             });
 
-            // it('should batch mint rmb successful by minter', async function () {
-            //     await that.rmb.mintBatch(accounts.customerAddressAlice, [TWENTY, ONE_HUNDRED]);
-            //     const amount = await that.rmb.balanceOf(accounts.customerAddressAlice, TEN);
-            //     amount.toNumber().should.be.equal(0);
-            //     const amounts = await that.rmb.balanceOfBatch([accounts.customerAddressAlice, accounts.customerAddressAlice], [TWENTY, ONE_HUNDRED]);
-            //     amounts[0].toNumber().should.be.equal(CIRCULATION);
-            //     amounts[1].toNumber().should.be.equal(CIRCULATION);
-            // });
+            it('should batch mint rmb successful by minter', async function () {
+                await that.rmb.mintBatch(accounts.customerAddressAlice, [TWENTY, ONE_HUNDRED]);
+                const amount = await that.rmb.balanceOf(accounts.customerAddressAlice, TEN);
+                amount.toNumber().should.be.equal(0);
+                const amounts = await that.rmb.balanceOfBatch([accounts.customerAddressAlice, accounts.customerAddressAlice], [TWENTY, ONE_HUNDRED]);
+                amounts[0].toNumber().should.be.equal(CIRCULATION);
+                amounts[1].toNumber().should.be.equal(CIRCULATION);
+            });
         });
 
         describe('#transfer()', () => {

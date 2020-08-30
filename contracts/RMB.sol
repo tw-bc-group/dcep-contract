@@ -52,7 +52,7 @@ contract RMB is ERC1155, AccessControl {
     }
 
     function mintBatch(address to, uint256[] memory ids) public virtual {
-        uint256[] memory amounts;
+        uint256[] memory amounts = new uint256[](ids.length);
         for (uint i = 0; i < ids.length; i++) {
             checkDuplicatedID(ids[i]);
             IdsSet.add(ids[i]);
