@@ -28,14 +28,21 @@ contract RMB is ERC1155, AccessControl {
         _setupRole(MINTER_ROLE, _msgSender());
     }
 
-    modifier onlyMintNewOne(uint256 id)  {
-        require(hasRole(MINTER_ROLE, _msgSender()), "RMB: must have minter role to mint");
-        checkDuplicatedID(id);
+    modifier checkDuplicatedID(uint256 id)  {
+        _checkDuplicatedID(id);
         _;
     }
-    function checkDuplicatedID(uint256 id) view internal {
-        require(!IdsSet.contains(id), "RMB: id is duplicated");
 
+    modifier checkMinter()  {
+        _checkMinter();
+        _;
+    }
+    function _checkDuplicatedID(uint256 id) view internal {
+        require(!IdsSet.contains(id), "RMB: id is duplicated");
+    }
+
+    function _checkMinter() view internal {
+        require(hasRole(MINTER_ROLE, _msgSender()), "RMB: must have minter role to mint");
     }
     /**
      * @dev Creates `amount` new tokens for `to`, of token type `id`.
@@ -46,15 +53,15 @@ contract RMB is ERC1155, AccessControl {
      *
      * - the caller must have the `MINTER_ROLE`.
      */
-    function mint(address to, uint256 id) public virtual onlyMintNewOne(id) {
+    function mint(address to, uint256 id) public virtual checkDuplicatedID(id) checkMinter {
         IdsSet.add(id);
         _mint(to, id, CIRCULATION, "0x0");
     }
 
-    function mintBatch(address to, uint256[] memory ids) public virtual {
+    function mintBatch(address to, uint256[] memory ids) public virtual checkMinter {
         uint256[] memory amounts = new uint256[](ids.length);
         for (uint i = 0; i < ids.length; i++) {
-            checkDuplicatedID(ids[i]);
+            _checkDuplicatedID(ids[i]);
             IdsSet.add(ids[i]);
             amounts[i] = CIRCULATION;
         }
