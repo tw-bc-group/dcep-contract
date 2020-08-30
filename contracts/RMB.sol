@@ -78,7 +78,7 @@ contract RMB is ERC1155, AccessControl {
     )
     public
     {
-        uint256[] memory amounts;
+        uint256[] memory amounts = new uint256[](ids.length);
         for (uint i = 0; i < ids.length; i++) {
             amounts[i] = CIRCULATION;
         }
