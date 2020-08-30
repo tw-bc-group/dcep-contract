@@ -4,7 +4,8 @@ chai.should();
 const rmbFactory = artifacts.require("RMB");
 let that = {};
 
-const {TWENTY} = require("./Constant");
+const web3 = require("web3");
+const {TWENTY, TEN, CIRCULATION, ONE_HUNDRED} = require("./Constant");
 
 
 contract("rmb", async addresses => {
@@ -22,18 +23,29 @@ contract("rmb", async addresses => {
         });
 
         describe('#mint()', () => {
-            it('should mint rmb success', async function () {
-                const amount = await that.rmb.balanceOf(accounts.cbAddress, TWENTY);
-                amount.toNumber().should.be.equal(1);
-            })
-        })
+            it('should mint rmb successful by minter', async function () {
+                await that.rmb.mint(accounts.customerAddressBob, TEN);
+                const amount = await that.rmb.balanceOf(accounts.customerAddressBob, TEN);
+                amount.toNumber().should.be.equal(CIRCULATION);
+            });
+
+            // it('should batch mint rmb successful by minter', async function () {
+            //     await that.rmb.mintBatch(accounts.customerAddressAlice, [TWENTY, ONE_HUNDRED]);
+            //     const amount = await that.rmb.balanceOf(accounts.customerAddressAlice, TEN);
+            //     amount.toNumber().should.be.equal(0);
+            //     const amounts = await that.rmb.balanceOfBatch([accounts.customerAddressAlice, accounts.customerAddressAlice], [TWENTY, ONE_HUNDRED]);
+            //     amounts[0].toNumber().should.be.equal(CIRCULATION);
+            //     amounts[1].toNumber().should.be.equal(CIRCULATION);
+            // });
+        });
 
         describe('#transfer()', () => {
             it('should transfer rmb success', async function () {
-                await that.rmb.safeTransferFrom(accounts.cbAddress, accounts.customerAddressAlice, TWENTY ,1 ,"0x");
-                const amount = await that.rmb.balanceOf(accounts.cbAddress, TWENTY);
-                amount.toNumber().should.be.equal(0);
-                const amountTo = await that.rmb.balanceOf(accounts.customerAddressAlice, TWENTY);
+                await that.rmb.mint(accounts.cbAddress, TEN);
+                await that.rmb.safeTransferFrom(accounts.cbAddress, accounts.customerAddressAlice, TEN);
+                const amount = await that.rmb.balanceOf(accounts.cbAddress, TEN);
+                amount.toNumber().should.be.equal(CIRCULATION - 1);
+                const amountTo = await that.rmb.balanceOf(accounts.customerAddressAlice, TEN);
                 amountTo.toNumber().should.be.equal(1);
             })
         })
