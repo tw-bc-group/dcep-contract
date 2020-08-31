@@ -29,6 +29,10 @@ tw-eth-cli callContractReturnValue -m balanceOf -p 0xed9d02e382b34818e88B88a309c
 
 ## tw-eth-cli 配置
 
+请更新到最新版本的 tw-eth-cli
+
+`npm upgrade tw-eth-cli -g`
+
 在家目录下增加`tw-eth-cli-config.js `
 
 增加以下内容
