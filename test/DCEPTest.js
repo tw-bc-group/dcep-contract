@@ -104,6 +104,15 @@ contract("rmb", async addresses => {
             });
         })
 
+
+        describe('#uri()', () => {
+            it('should get rmb uri success', async function () {
+                const uri = await that.rmb.uri(TWENTY);
+                uri.should.be.equal("https://wallet.blockchain.thoughtworks.cn:10443/v1/dcep/{id}")
+            });
+
+        })
+
     });
 });
 

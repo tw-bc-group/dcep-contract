@@ -21,7 +21,7 @@ contract RMB is ERC1155, AccessControl {
     uint256 constant CIRCULATION = 1;
 
 
-    constructor() public ERC1155("https://game.example/api/item/{1}.json") {
+    constructor() public ERC1155("https://wallet.blockchain.thoughtworks.cn:10443/v1/dcep/{id}") {
         // Grant the contract deployer the default admin role: it will be able
         // to grant and revoke any roles
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
